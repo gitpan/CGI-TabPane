@@ -56,7 +56,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 
 );
-our $VERSION = '1.04';
+our $VERSION = '1.05';
 
 # -----------------------------------------------
 
@@ -97,7 +97,7 @@ our $VERSION = '1.04';
 
 			my($page_id)	= 66 * $nested + $tab;
 			my(@key)		= keys %{$$pane[$tab]};
-			$tab_index		= $tab if (! $nested && ($key[0] eq $$self{'_current_tab'}) );
+			$tab_index		= $tab if (! $nested && $key[0] && ($key[0] eq $$self{'_current_tab'}) );
 			$html			.= ($pane_id == 0) ? qq|<div class = "tab-page" id = "tabPage$page_id">\n| : qq|<div class = "tab-page">\n|;
 			$html			.= qq|<h2 class = "tab">$key[0]</h2>\n|;
 			$html			.= qq|<script type = "text/javascript">tp1.addTabPage(document.getElementById("tabPage$page_id") );</script>\n| if ($pane_id == 0);

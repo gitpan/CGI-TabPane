@@ -15,7 +15,7 @@ lib/CGI/TabPane.pm
 Makefile.PL
 MANIFEST			This list of files
 MANIFEST.SKIP
-META.yml
 README
 t/pod.t
 t/test.t
+META.yml

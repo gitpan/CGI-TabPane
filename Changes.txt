@@ -1,5 +1,8 @@
 Revision history for Perl extension CGI::TabPane.
 
+1.05  Sun Jan  9 16:44:00 2005
+	- Add a check so we don't access and undef array reference
+
 1.04  Mon Jul 19 14:43:00 2004
 	- Change Makefile.PL to coexist with Module::Build
 	- Move a few CSS declarations around between the *.css files, to help clean these files up.

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name: CGI-TabPane
-version: 1.04
+version: 1.05
 author:
   - Ron Savage <ron@savage.net.au>
 abstract: Support panes with clickable tabs
@@ -10,5 +10,8 @@ requires:
 build_requires:
   Test::More: 0
   Test::Pod: 0
-provides: {}
-generated_by: Module::Build version 0.24
+provides:
+  CGI::TabPane:
+    file: lib/CGI/TabPane.pm
+    version: 1.05
+generated_by: Module::Build version 0.2607
