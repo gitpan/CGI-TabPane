@@ -1,4 +1,9 @@
 Revision history for Perl extension CGI::TabPane.
 
-1.00  Tue Jan 25 12:37:29 2004
+1.01  Mon Jan 25 12:37:29 2004
+	- Fix class name in t/test.t. I copied the test from another module and did not edit it properly
+	- Fix typos in luna.css: background-repaet is now background-repeat
+	- Fix typo in this file: Tue is now Sun
+
+1.00  Sun Jan 25 12:37:29 2004
 	- Original version
