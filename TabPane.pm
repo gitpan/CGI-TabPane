@@ -56,7 +56,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 
 );
-our $VERSION = '1.01';
+our $VERSION = '1.02';
 
 # -----------------------------------------------
 
@@ -69,6 +69,7 @@ our $VERSION = '1.01';
 {
 	my(%_attr_data) =
 	(	# Alphabetical order.
+		_current_tab	=> '',
 		_data			=> '',
 		_final_css		=> '/css/tabpane/final.css',
 		_html			=> '',
@@ -77,6 +78,7 @@ our $VERSION = '1.01';
 		_style_css		=> '/css/tabpane/luna.css',
 		_suffix_html	=> '',
 		_tabpane_js		=> '/js/tabpane/tabpane.js',
+		_use_cookie		=> 1,
 		_webfxlayout_js	=> '/js/tabpane/webfxlayout.js',
 	);
 
@@ -84,12 +86,18 @@ our $VERSION = '1.01';
 	{
 		my($self, $pane_id, $pane, $nested) = @_;
 		my($html)	= qq|<div class = "tab-pane" id = "tabPane$pane_id">\n|;
-		$html		.= qq|<script type = "text/javascript">tp1 = new WebFXTabPane(document.getElementById("tabPane$pane_id") );</script>\n| if ($pane_id == 0);
+		$html		.= qq|<script type = "text/javascript">tp1 = new WebFXTabPane(document.getElementById("tabPane$pane_id"), $$self{'_use_cookie'});</script>\n| if ($pane_id == 0);
+
+		my($tab_index);
 
 		for my $tab (0 .. $#$pane)
 		{
-			my($page_id)	= 20 * $nested + $tab;
+			# Arbitrarily limit the number of tabs per pane to 66, even though I hate to do this.
+			# This $page_id is the HTML id (name) of the tab within the page.
+
+			my($page_id)	= 66 * $nested + $tab;
 			my(@key)		= keys %{$$pane[$tab]};
+			$tab_index		= $tab if (! $nested && ($key[0] eq $$self{'_current_tab'}) );
 			$html			.= ($pane_id == 0) ? qq|<div class = "tab-page" id = "tabPage$page_id">\n| : qq|<div class = "tab-page">\n|;
 			$html			.= qq|<h2 class = "tab">$key[0]</h2>\n|;
 			$html			.= qq|<script type = "text/javascript">tp1.addTabPage(document.getElementById("tabPage$page_id") );</script>\n| if ($pane_id == 0);
@@ -104,7 +112,10 @@ our $VERSION = '1.01';
 			}
 			elsif (ref($$pane[$tab]{$key[0]}) eq 'ARRAY')
 			{
-				$html .= $self -> _build( (100 + $pane_id), $$pane[$tab]{$key[0]}, 1);
+				# Arbitrarity limit the number of non-nested panes to 100, even though I hate to do this.
+				# This (99 + $pane_id) is the id (name) of the first nested pane.
+
+				$html .= $self -> _build( (99 + $pane_id), $$pane[$tab]{$key[0]}, 1);
 			}
 			else
 			{
@@ -114,6 +125,7 @@ our $VERSION = '1.01';
 			$html .= qq|</div>\n|;
 		}
 
+		$html .= qq|<script type = "text/javascript">tp1.setSelectedIndex($tab_index);</script>\n| if (! $nested && $tab_index);
 		$html .= qq|</div>\n|;
 
 	}	# End of _build.
@@ -280,6 +292,23 @@ For each parameter you wish to use, call new as new(param_1 => value_1, ...).
 
 =over 4
 
+=item current_tab
+
+This value is a string, the name of tab, used to specify which tab on the first pane is to be the current tab
+when that pane is displayed.
+
+For example, tab 'Search' could contain a CGI form, with that tab being the default or current tab the first time the
+CGI script is called to generate output. Then, when the submit button on that form is clicked, the CGI script could
+generate the next lot of output with a different tab, e.g. tab 'Results', being the current tab.
+
+There is no provision for controlling which tab is the current tab on any pane after the first pane.
+
+The default value is ''.
+
+This parameter is optional.
+
+Note: In the JavaScript, the tabs are numbered left to right, starting at 0.
+
 =item data
 
 This value holds all the information required to build the panes and tabs per pane.
@@ -367,6 +396,22 @@ Warning: Do not edit tabpane.js. Even tiny changes will have horrible effects on
 The default value is '/js/tabpane/tabpane.js'.
 
 This parameter is optional.
+
+=item use_cookie
+
+This value is a Boolean, 0 or 1, which respectively deactivates or activates the persistance option of the WebFXTabPane
+class in tabpane.js. Activation means the JavaScript uses a cookie to save the state of which tab on the first pane is
+the current tab.
+
+The default value is 1, since that's the default in the WebFXTabPane class, and so that's what will have been used in
+the past when this module was run without this parameter.
+
+There is no provision for saving the state of which tab is the current tab on any pane after the first pane, because
+the name of the cookie does not include any indicator as to which pane the current tab belongs to.
+
+This parameter is optional.
+
+Historical note: The word Boolean must have a capital B because it's based on the name of a person - George Boole.
 
 =item webfxlayout_js
 
@@ -536,6 +581,15 @@ Lastly, the entire data structure for the diagram could be:
 
 You are strongly urged to examine the demo examples/test-cgi-tabpane.cgi to get an understanding of how to construct
 the required data structure.
+
+=head1 Limitations
+
+The numbers of the panes, 0 .. N, and the numbers of tabs per pane, 0 .. N, are used to generate strings which in turn
+as used as names of things in the JavaScript and HTML.
+
+The non-Perl code will only work if these names are unique. So, you are limited to 99 panes and 66 tabs per pane.
+
+The Perl code does not check to ensure you are within in these limits.
 
 =head1 Method: get($name_of_thing_to_get)
 

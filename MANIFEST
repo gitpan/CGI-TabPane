@@ -1,9 +1,9 @@
+TabPane.html
 Makefile.PL
 Changes.txt
-TabPane.pm
-TabPane.html
 MANIFEST
 README
+TabPane.pm
 js/tabpane/tabpane.js
 js/tabpane/webfxlayout.js
 css/tabpane/winclassic.css

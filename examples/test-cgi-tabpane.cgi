@@ -121,10 +121,12 @@ my($q)		= CGI -> new();
 my($spacer)	= '<p>&nbsp;</p><p>&nbsp;</p>';
 my($pane)	= CGI::TabPane -> new
 (
-	data	=> init(),
-	infix	=> $spacer,
-	prefix	=> $spacer,
-	style	=> '/css/tabpane/luna.css',
+	current_tab	=> 'Privacy',
+	data		=> init(),
+	infix_html	=> $spacer,
+	prefix_html	=> $spacer,
+	style_css	=> '/css/tabpane/luna.css',
+	use_cookie	=> 0,
 );
 my($final)			= $pane -> get('final_css');
 my($html)			= $pane -> get('html');

@@ -20,6 +20,7 @@
 	<li><a href="#constructor_and_initialization">Constructor and initialization</a></li>
 	<li><a href="#terminology">Terminology</a></li>
 	<li><a href="#the_structure_of_the_data">The Structure of the Data</a></li>
+	<li><a href="#limitations">Limitations</a></li>
 	<li><a href="#method:_get($name_of_thing_to_get)">Method: <code>get($name_of_thing_to_get)</code></a></li>
 	<li><a href="#example_code">Example code</a></li>
 	<li><a href="#required_modules">Required Modules</a></li>
@@ -82,6 +83,30 @@ help on unpacking and installing each type of distro.</p>
 <p>This method takes a set of parameters. Only the data parameter is mandatory.</p>
 <p>For each parameter you wish to use, call new as new(param_1 =&gt; value_1, ...).</p>
 <dl>
+<dt><strong><a name="item_current_tab">current_tab</a></strong><br />
+</dt>
+<dd>
+This value is a string, the name of tab, used to specify which tab on the first pane is to be the current tab
+when that pane is displayed.
+</dd>
+<dd>
+<p>For example, tab 'Search' could contain a CGI form, with that tab being the default or current tab the first time the
+CGI script is called to generate output. Then, when the submit button on that form is clicked, the CGI script could
+generate the next lot of output with a different tab, e.g. tab 'Results', being the current tab.</p>
+</dd>
+<dd>
+<p>There is no provision for controlling which tab is the current tab on any pane after the first pane.</p>
+</dd>
+<dd>
+<p>The default value is ''.</p>
+</dd>
+<dd>
+<p>This parameter is optional.</p>
+</dd>
+<dd>
+<p>Note: In the JavaScript, the tabs are numbered left to right, starting at 0.</p>
+</dd>
+<p></p>
 <dt><strong><a name="item_data">data</a></strong><br />
 </dt>
 <dd>
@@ -199,6 +224,28 @@ This value is the name of a JavaScript file. The module ships with a suitable fi
 </dd>
 <dd>
 <p>This parameter is optional.</p>
+</dd>
+<p></p>
+<dt><strong><a name="item_use_cookie">use_cookie</a></strong><br />
+</dt>
+<dd>
+This value is a Boolean, 0 or 1, which respectively deactivates or activates the persistance option of the WebFXTabPane
+class in tabpane.js. Activation means the JavaScript uses a cookie to save the state of which tab on the first pane is
+the current tab.
+</dd>
+<dd>
+<p>The default value is 1, since that's the default in the WebFXTabPane class, and so that's what will have been used in
+the past when this module was run without this parameter.</p>
+</dd>
+<dd>
+<p>There is no provision for saving the state of which tab is the current tab on any pane after the first pane, because
+the name of the cookie does not include any indicator as to which pane the current tab belongs to.</p>
+</dd>
+<dd>
+<p>This parameter is optional.</p>
+</dd>
+<dd>
+<p>Historical note: The word Boolean must have a capital B because it's based on the name of a person - George Boole.</p>
 </dd>
 <p></p>
 <dt><strong><a name="item_webfxlayout_js">webfxlayout_js</a></strong><br />
@@ -428,6 +475,14 @@ So don't do that.</p>
         ]</pre>
 <p>You are strongly urged to examine the demo examples/test-cgi-tabpane.cgi to get an understanding of how to construct
 the required data structure.</p>
+<p>
+</p>
+<hr />
+<h1><a name="limitations">Limitations</a></h1>
+<p>The numbers of the panes, 0 .. N, and the numbers of tabs per pane, 0 .. N, are used to generate strings which in turn
+as used as names of things in the JavaScript and HTML.</p>
+<p>The non-Perl code will only work if these names are unique. So, you are limited to 99 panes and 66 tabs per pane.</p>
+<p>The Perl code does not check to ensure you are within in these limits.</p>
 <p>
 </p>
 <hr />

@@ -1,9 +1,26 @@
 Revision history for Perl extension CGI::TabPane.
 
+1.02  Thu Jan 29 12:37:29 2004
+	- Add parameter to new() called current_tab, to allow the user to specify which tab is to be the current tab
+		when the first pane is displayed. See POD for details
+	- Add parameter to new() called use_cookie, to allow the user to specify whether or not a cookie is used by the
+		JavaScript to save the state of which tab is the current tab on the first pane. This option was suggested by
+		Enrico Sorcinelli. See POD for details
+	- Document limitations: 66 tabs per pane and 99 non-nested panes
+	- Change call to new() in examples/test-cgi-tabpane.cgi to include these values:
+		current_tab => 'Privacy',
+		use_cookie  => 0
+	- Fix typo in examples/test-cgi-tabpane.cgi. The parameter to new() was:
+			style     => '/css/tabpane/webfx.css',
+		and is now:
+			style_css => '/css/tabpane/webfx.css',
+	- Fix Makefile.PL to exclude DBI, because Makefile.PL was copied carelessly from another project, and to include
+		Test::More, because the latter module is used in t/test.t
+
 1.01  Mon Jan 25 12:37:29 2004
 	- Fix class name in t/test.t. I copied the test from another module and did not edit it properly
 	- Fix typos in luna.css: background-repaet is now background-repeat
-	- Fix typo in this file: Tue is now Sun
+	- Fix typo in this file: Tue (below) is now Sun
 
 1.00  Sun Jan 25 12:37:29 2004
 	- Original version
