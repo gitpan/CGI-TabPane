@@ -118,7 +118,7 @@ EOS
 
 my($title)	= 'Tab Pane Demo (WebFX)';
 my($q)		= CGI -> new();
-my($spacer)	= '<p>&nbsp;</p><p>&nbsp;</p>';
+my($spacer)	= '<p>&nbsp;</p>';
 my($pane)	= CGI::TabPane -> new
 (
 	current_tab	=> 'Privacy',
@@ -138,13 +138,13 @@ print $q -> header({type => 'text/html;charset=ISO-8859-1'}), <<EOS;
 <html>
 	<head>
 		<title>$title</title>
-		<script type = "text/javascript" src = "$webfxlayout"></script>
-		<link type = "text/css" rel = "stylesheet" href = "$style" />
-		<link type = "text/css" rel = "stylesheet" href = "$final" />
+		<link type = "text/css" rel = "stylesheet" href = "$style" /> <!-- Any 1 of those shipped.         -->
+		<link type = "text/css" rel = "stylesheet" href = "$final" /> <!-- Must follow the previous link.  -->
 		<script type = "text/javascript" src = "$tabpane"></script>
+		<script type = "text/javascript" src = "$webfxlayout"></script>
 	</head>
-<body>
-$html
-</body>
+	<body>
+		$html
+	</body>
 </html>
 EOS

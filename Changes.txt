@@ -1,5 +1,16 @@
 Revision history for Perl extension CGI::TabPane.
 
+1.03  Tue Feb 03 12:37:29 2004
+	- Add warning to docs that the CSS file given by the final_css parameter to new()
+		must follow, in the <head> of the HTML, the CSS file given by the style_css
+		parameter. Add corresponding comment to examples/test-cgi-tabpane.cgi
+	- Only add the infix_html between panes, not also after the last pane as I was doing
+	- Cut all unused CSS selectors from *.css. This makes it much easier to combine this
+		module with other CSS files
+	- Change docs to recommend separating panes vertically by 1 paragraph rather than 2.
+		Since the CSS selector 'p' was cut from *.css, your demos will change appearence
+		whether you use 1 or 2 paragraphs in this way
+
 1.02  Thu Jan 29 12:37:29 2004
 	- Add parameter to new() called current_tab, to allow the user to specify which tab is to be the current tab
 		when the first pane is displayed. See POD for details

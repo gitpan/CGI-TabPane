@@ -56,7 +56,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 
 );
-our $VERSION = '1.02';
+our $VERSION = '1.03';
 
 # -----------------------------------------------
 
@@ -199,7 +199,8 @@ sub new
 
 	for my $p (0 .. $#{$$self{'_data'} })
 	{
-		$$self{'_html'} .= $self -> _build($p, $$self{'_data'}[$p], 0) . $$self{'_infix_html'};
+		$$self{'_html'} .= $self -> _build($p, $$self{'_data'}[$p], 0);
+		$$self{'_html'} .= $$self{'_infix_html'} if ($p < $#{$$self{'_data'} });
 	}
 
 	$$self{'_html'} .= $$self{'_suffix_html'};
@@ -323,6 +324,9 @@ This parameter is mandatory.
 
 This value is the name of a CSS file. The module ships with a suitable file called final.css.
 
+Warning: This file must be output in the <head> of your HTML page C<after> the CSS file you
+choose with the style_css parameter. See examples/test-cgi-tabpane.cgi for a demo.
+
 Warning: Do not edit final.css. Even tiny changes will have horrible effects on the output.
 
 The default value is '/css/tabpane/final.css'.
@@ -342,7 +346,7 @@ This parameter is optional.
 
 This value is a string of HTML to be inserted between panes, to separate them vertically.
 
-A typical value might be: '<p>&nbsp;</p><p>&nbsp;</p>'.
+A typical value might be: '<p>&nbsp;</p>'.
 
 The default value is '' (the empty string).
 
@@ -352,7 +356,7 @@ This parameter is optional.
 
 This value is a string of HTML to be inserted before the first pane.
 
-A typical value might be: '<p>&nbsp;</p><p>&nbsp;</p>'.
+A typical value might be: '<p>&nbsp;</p>'.
 
 The default value is '' (the empty string).
 
@@ -381,7 +385,7 @@ This parameter is optional.
 
 This value is a string of HTML to be inserted after the last pane.
 
-A typical value might be: '<p>&nbsp;</p><p>&nbsp;</p>'.
+A typical value might be: '<p>&nbsp;</p>'.
 
 The default value is '' (the empty string).
 

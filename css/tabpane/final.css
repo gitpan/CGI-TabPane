@@ -6,23 +6,7 @@
 	height:		auto;
 }
 
-html, body {
-	background:	ThreeDFace;
-}
-
-form {
-	margin:		0;
-	padding:	0;
-}
-
 /* over ride styles from webfxlayout */
-
-body {
-	background: white;
-	margin:		10px;
-	width:		auto;
-	height:		auto;
-}
 
 .dynamic-tab-pane-control h2 {
 	text-align:	center;
