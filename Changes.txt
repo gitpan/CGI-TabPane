@@ -1,5 +1,17 @@
 Revision history for Perl extension CGI::TabPane.
 
+1.04  Mon Jul 19 14:43:00 2004
+	- Change Makefile.PL to coexist with Module::Build
+	- Move a few CSS declarations around between the *.css files, to help clean these files up.
+			You should notice nothing
+	- Change the default margin and padding for forms, from 0 to 5 pixels. See final.css lines 14 .. 15.
+		In this case, you should now notice a coloured frame around your forms
+	- Note: Firefox V 0.9.1 fails to properly handle the CSS required to display multiple panes stacked
+		vertically when the last pane is wider than the panes above it. However it does better job than
+		IE V 6.0.2800 at handling the width of the tab on a pane with one tab below a pane of several tabs.
+		You are encouraged to report all bugs to the appropriate developers
+	- Add t/pod.t to test all PODs
+
 1.03  Tue Feb 03 12:37:29 2004
 	- Add warning to docs that the CSS file given by the final_css parameter to new()
 		must follow, in the <head> of the HTML, the CSS file given by the style_css

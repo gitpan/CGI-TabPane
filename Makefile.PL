@@ -12,20 +12,26 @@ WriteMakefile
 (
 	($] ge '5.005') ?
 	(
-		'AUTHOR' => 'Ron Savage (ron@savage.net.au)',
-		'ABSTRACT' => 'Support panes with clickable tabs',
+		'AUTHOR'	=> 'Ron Savage (ron@savage.net.au)',
+		'ABSTRACT'	=> 'Support panes with clickable tabs',
     ) : (),
-	clean				=>
+	clean			=>
 	{
-		FILES			=> 'blib/* Makefile MANIFEST CGI-TabPane-*'
+		FILES		=> 'blib/* Makefile MANIFEST CGI-TabPane-*'
 	},
-	dist				=>
+	dist			=>
 	{
-		COMPRESS		=> 'gzip',
-		SUFFIX			=> 'gz'
+		COMPRESS	=> 'gzip',
+		SUFFIX		=> 'gz'
 	},
-	DISTNAME			=> 'CGI-TabPane',
-	NAME				=> 'CGI::TabPane',
-	PREREQ_PM			=> {Carp => 0, Test::More => 0},
-	VERSION_FROM		=> 'TabPane.pm',
+	DISTNAME		=> 'CGI-TabPane',
+	NAME			=> 'CGI::TabPane',
+	PL_FILES		=> {},
+	PREREQ_PM		=>
+	{
+		Carp		=> 0,
+		Test::More	=> 0,
+		Test::Pod	=> 0,
+	},
+	VERSION_FROM	=> 'lib/CGI/TabPane.pm',
 );

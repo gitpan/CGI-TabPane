@@ -1,4 +1,25 @@
-h2 {
+
+/*
+
+bright: rgb(234,242,255);
+normal: rgb(120,172,255);
+dark:	rgb(0,66,174);
+
+*/
+
+html, body {
+	height:		100%;
+	margin:		0;
+	padding:	0;
+	background:	white;
+	color:		black;
+
+	font-size:	13px;
+	font-family:	"Verdana", "Tahoma", "Helvetica", "Sans-Serif";
+}
+
+/* h1 only used in header */
+h2,h3,h4,h5,h6 {
 	margin-left:	10px;
 	margin-right:	10px;
 	padding:		2px 10px 2px 10px;
@@ -6,8 +27,33 @@ h2 {
 	border-bottom:	1px solid rgb(120,172,255);
 	width:			480px;
 	width:			expression(500);
+}
+
+h1,h2 {
 	font-weight:	normal;
+}
+
+h3,h4,h5,h6 {
+	font-weight:	bold;
+}
+
+h1 {
+	font-size:		50px;
+}
+
+h2 {
 	font-size:		20px;
+}
+
+h3 {
+	font-size:		15px;
+}
+
+p {
+	margin:			10px;
+	font-size:		13px;
+	color:			black;
+	width:			500px;
 }
 
 a {
@@ -28,7 +74,7 @@ a:visited:hover {
 	color:			rgb(0,66,174);
 }
 
-h2 a {
+h2 a, h3 a {
 	display:			block;
 	text-decoration:	none;
 	width:				expression("100%");

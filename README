@@ -1,416 +1,56 @@
-NAME
-    "CGI::TabPane" - Support panes with clickable tabs
+README file for CGI::TabPane.
 
-Synopsis
-            use CGI::TabPane;
+Warning: WinZip 8.1 and 9.0 both contain an 'accidental' bug which stops
+them recognizing POSIX-style directory structures in valid tar files.
+You are better off using a reliable tool such as InfoZip:
+ftp://ftp.info-zip.org/pub/infozip/
 
-            CGI::TabPane -> new(data => [...]) -> get('html');
+1 Installing from a Unix-like distro
+------------------------------------
+shell>gunzip CGI-TabPane-1.04.tgz
+shell>tar mxvf CGI-TabPane-1.04.tar
 
-Description
-    "CGI::TabPane" is a pure Perl module.
+On Unix-like systems, assuming you have installed Module::Build V 0.25+:
 
-    It is a wrapper around the superb JavaScript package 'Tab Pane' by Erik
-    Arvidsson.
+shell>perl Build.PL
+shell>./Build
+shell>./Build test
+shell>./Build install
 
-    Erik's article on Tab Pane is here:
-    http://webfx.eae.net/dhtml/tabpane/tabpane.html
+On MS Windows-like systems, assuming you have installed Module::Build V 0.25+:
 
-    I have simplified some of Erik's files, and renamed some, to make
-    shipping and installing easier.
+shell>perl Build.PL
+shell>perl Build
+shell>perl Build test
+shell>perl Build install
 
-Installation
-    The makefile will install /perl/site/lib/CGI/TabPane.pm.
+Alternately, without Module::Build, you do this:
 
-    You must manually install <Document Root>/css/tabpane/*.[css|png] and
-    <Document Root>/js/tabpane/*.js.
+Note: 'make' on MS Windows-like systems may be called 'nmake' or 'dmake'.
 
-    If you choose to put the CSS elsewhere, you'll need to call
-    new(final_css => '/new/path/final.css'). Similarly for style_css.
+shell>perl Makefile.PL
+shell>make
+shell>make test
+shell>su              (for Unix-like systems)
+shell>make install
+shell>exit            (for Unix-like systems)
 
-    Note: If you put webfxlayout.css elsewhere, you'll have to edit
-    webfxlayout.js.
+On all systems:
 
-    If you choose to put the JavaScript elsewhere, you'll need to call
-    new(tabpane_js => '/new/path/tabpane.css'). Similarly for
-    webfxlayout_js.
+Run TabPane.pm through you favourite pod2html translator.
 
-    These options can be used together, and can be passed into "set()"
-    rather than "new()".
+If you are using my fancy-pom2.pl, with its 'default.css' file installed in
+/apache2/htdocs/css/, you'd do:
 
-Distributions
-    This module is available both as a Unix-style distro (*.tgz) and an
-    ActiveState-style distro (*.ppd). The latter is shipped in a *.zip file.
+shell>perl fancy-pom2.pl html -css TabPane.pm > /apache2/htdocs/TabPane.html
 
-    See http://savage.net.au/Perl-modules.html for details.
+or perhaps something like:
 
-    See http://savage.net.au/Perl-modules/html/installing-a-module.html for
-    help on unpacking and installing each type of distro.
+shell>perl fancy-pom2.pl html -css TabPane.pm > /perl/html/site/lib/CGI/TabPane.html
 
-Constructor and initialization
-    new(...) returns a "CGI::TabPane" object.
-
-    This is the class's contructor.
-
-    Usage: CGI::TabPane -> new().
-
-    This method takes a set of parameters. Only the data parameter is
-    mandatory.
-
-    For each parameter you wish to use, call new as new(param_1 => value_1,
-    ...).
-
-    current_tab
-        This value is a string, the name of tab, used to specify which tab
-        on the first pane is to be the current tab when that pane is
-        displayed.
-
-        For example, tab 'Search' could contain a CGI form, with that tab
-        being the default or current tab the first time the CGI script is
-        called to generate output. Then, when the submit button on that form
-        is clicked, the CGI script could generate the next lot of output
-        with a different tab, e.g. tab 'Results', being the current tab.
-
-        There is no provision for controlling which tab is the current tab
-        on any pane after the first pane.
-
-        The default value is ''.
-
-        This parameter is optional.
-
-        Note: In the JavaScript, the tabs are numbered left to right,
-        starting at 0.
-
-    data
-        This value holds all the information required to build the panes and
-        tabs per pane.
-
-        See the sections below called 'Terminology' and 'The Structure of
-        the Data' for details.
-
-        The default value is '' (the empty string), which will die because
-        you must pass in an array ref.
-
-        This parameter is mandatory.
-
-    final_css
-        This value is the name of a CSS file. The module ships with a
-        suitable file called final.css.
-
-        Warning: This file must be output in the <head> of your HTML page
-        "after" the CSS file you choose with the style_css parameter. See
-        examples/test-cgi-tabpane.cgi for a demo.
-
-        Warning: Do not edit final.css. Even tiny changes will have horrible
-        effects on the output.
-
-        The default value is '/css/tabpane/final.css'.
-
-        This parameter is optional.
-
-    html
-        Normally you would not do this, but if you want, you can pass in a
-        value for the "html" parameter, and the HTML generated by this
-        module will be appended to your initial value.
-
-        The default value is ''.
-
-        This parameter is optional.
-
-    infix_html
-        This value is a string of HTML to be inserted between panes, to
-        separate them vertically.
-
-        A typical value might be: '<p>&nbsp;</p>'.
-
-        The default value is '' (the empty string).
-
-        This parameter is optional.
-
-    prefix_html
-        This value is a string of HTML to be inserted before the first pane.
-
-        A typical value might be: '<p>&nbsp;</p>'.
-
-        The default value is '' (the empty string).
-
-        This parameter is optional.
-
-    style_css
-        This value is the name of a CSS file which determines the overall
-        style of the output. The module ships with three suitable files:
-
-        luna.css
-        webfx.css
-        winclassic.css
-
-        The default value is '/css/tabpane/luna.css'.
-
-        This parameter is optional.
-
-    suffix_html
-        This value is a string of HTML to be inserted after the last pane.
-
-        A typical value might be: '<p>&nbsp;</p>'.
-
-        The default value is '' (the empty string).
-
-        This parameter is optional.
-
-    tabpane_js
-        This value is the name of a JavaScript file. The module ships with a
-        suitable file called tabpane.js.
-
-        Warning: Do not edit tabpane.js. Even tiny changes will have
-        horrible effects on the output.
-
-        The default value is '/js/tabpane/tabpane.js'.
-
-        This parameter is optional.
-
-    use_cookie
-        This value is a Boolean, 0 or 1, which respectively deactivates or
-        activates the persistance option of the WebFXTabPane class in
-        tabpane.js. Activation means the JavaScript uses a cookie to save
-        the state of which tab on the first pane is the current tab.
-
-        The default value is 1, since that's the default in the WebFXTabPane
-        class, and so that's what will have been used in the past when this
-        module was run without this parameter.
-
-        There is no provision for saving the state of which tab is the
-        current tab on any pane after the first pane, because the name of
-        the cookie does not include any indicator as to which pane the
-        current tab belongs to.
-
-        This parameter is optional.
-
-        Historical note: The word Boolean must have a capital B because it's
-        based on the name of a person - George Boole.
-
-    webfxlayout_js
-        This value is the name of a JavaScript file. The module ships with a
-        suitable file called webfxlayout.js.
-
-        Warning: Do not edit webfxlayout.js. Even tiny changes will have
-        horrible effects on the output.
-
-        The default value is '/js/tabpane/webfxlayout.js'.
-
-        This parameter is optional.
-
-Terminology
-    The comments below this diagram define a few terms.
-
-    The example shipped with this module will make things much clearer. See
-    the examples/ directory.
-
-    Alternately, go straight to Erik's demo at:
-    http://webfx.eae.net/dhtml/tabpane/demo.html
-
-            [Tab 1-1] [Tab 1-2] [TAB 1-3] [Tab 1-4]
-            [===============================================]
-            [ Text for tab 1-3                              ]
-            [===============================================]
-
-            [TAB 2-1] [Tab 2-2]
-            [==============================]
-            [ +Legend--------------------+ ]
-            [ |Text for tab 2-1          | ]
-            [ +--------------------------+ ]
-            [==============================]
-
-    Pane
-        We have 2 'panes', one on top of the other.
-
-        Panes are tiled vertically.
-
-        Use the "infix_html" parameter to "new()" or "set()" to change the
-        vertical separation of the panes.
-
-    Tab The top pane has 4 'tabs' side-by-side. The bottom pane has 2 tabs.
-
-        Tabs are tiled horizontally.
-
-    Current tab
-        The current tab within a pane is the tab most-recently clicked.
-
-        Tab 3 in the 1st pane and tab 1 in the 2nd pane are in upper case in
-        the diagram to indicate they are the 'current tab' in each pane. The
-        upper case above is just something I made up for the purposes of
-        writing this document. Of course, text is not converted to upper
-        case by this module.
-
-                Note: Tabs can be clicked with a mouse, and they can be clicked by executing code.
-
-    Current text
-        The text associated with the current tab is called the 'current
-        text'.
-
-    Body
-        When a tab is clicked it becomes the current tab, and its text
-        becomes the current text, and this text is displayed in the 'body'
-        of the pane, completely replacing any existing text being displayed
-        in the body.
-
-    Legend
-        It is possible to use the HTML tag 'legend' to cause a box to be
-        drawn by the web client (browser) around the current text.
-
-        Further, it is possible to get the web client to write a string of
-        text on top of the upper left part of this box.
-
-        Such a string is called the 'legend'. See above for an example. See
-        the examples/ directory for a better example.
-
-The Structure of the Data
-    Our first problem is to define a data structure which allows us to
-    neatly supply our own data to populate a set of panes and each set of
-    tabs per pane.
-
-    Data for a set of panes
-        The data structure defining the panes is an array ref. Each element
-        of the array provides data for 1 pane.
-
-        So, the above diagram will be something like:
-
-                [<Data for 1st pane>, <Data for 2nd pane>].
-
-    Data for a set of tabs
-        The data structure defining the tabs for 1 pane is an array ref.
-        Each element of the array provides data for 1 tab.
-
-        So, the above diagram will be something like:
-
-                <Data for 1st pane>:
-
-                [<Data for 1st tab of 1st pane>, <Data for 2nd tab of 1st pane>, ...].
-
-                <Data for 2nd pane>:
-
-                [<Data for 1st tab of 2nd pane>, <Data for 2nd tab of 2nd pane>].
-
-    Data for 1 tab without a legend
-        In the absence of a legend, the data for 1 tab is a hash ref:
-
-                <Data for any tab (without a legend) of any pane>:
-
-                {'Text for tab' => 'Text for body of pane'}
-
-        Recall from the discussion of 'body' above: 'Text for body of pane'
-        means the text which is to be displayed when this particular tab if
-        clicked.
-
-        In the diagram, then, the data for the 3rd tab of the 1st pane is:
-
-                {'Tab 1-3' => 'Text for tab 1-3'}
-
-    Data for 1 tab with a legend
-        In the presence of a legend, the data for 1 tab is a hash ref within
-        a hash ref:
-
-                <Data for any tab (with a legend) of any pane>:
-
-                {'Text for tab' => {'Text for legend' => 'Text for body of pane'} }
-
-        In the diagram, then, the data for the 1st tab of the 2nd pane is:
-
-                {'Tab 2-1' => {'Legend' => 'Text for tab 2-1'} }
-
-    Data for nested panes and tabs
-        In the presence of nested panes, the data for 1 tab is an array ref
-        within a hash ref:
-
-                <Data for a nested pane>:
-
-                {'Text for tab' => [<Data for 1st nested tab>, <Data for 2nd nested tab>, ...]}
-
-        Warning: This module will only handle 2 levels in this hierarchy of
-        nesting, since it uses hard-coded CSS tokens for the classes of the
-        <div>s involved. By '2 levels' I mean 1 outer pane and 1 inner pane.
-
-        Warning: To have one nested pane, with its own set of tabs, makes
-        sense. To add more complexity than that surely means your design is
-        too complex. By 'more complexity' I mean 2 panes displayed
-        vertically within 1 pane. So don't do that.
-
-    Lastly, the entire data structure for the diagram could be:
-
-            [      # All panes
-                [  # 1st pane
-                    {'Tab 1-1' => 'Text for tab 1-1'},
-                    {'Tab 1-2' => 'Text for tab 1-2'},
-                    {'Tab 1-3' => 'Text for tab 1-3'},
-                    {'Tab 1-4' => 'Text for tab 1-4'},
-                ],
-                [  # 2nd pane
-                    {'Tab 2-1' => {'Legend' => 'Text for tab 2-1'} },
-                    {'Tab 2-2' => 'Text for tab 2-2'},
-                ],
-            ]
-
-    You are strongly urged to examine the demo examples/test-cgi-tabpane.cgi
-    to get an understanding of how to construct the required data structure.
-
-Limitations
-    The numbers of the panes, 0 .. N, and the numbers of tabs per pane, 0 ..
-    N, are used to generate strings which in turn as used as names of things
-    in the JavaScript and HTML.
-
-    The non-Perl code will only work if these names are unique. So, you are
-    limited to 99 panes and 66 tabs per pane.
-
-    The Perl code does not check to ensure you are within in these limits.
-
-Method: get($name_of_thing_to_get)
-    Returns a string.
-
-    The 'name of the thing to get' is any of the parameters which can be
-    passed in to "new()":
-
-    data
-    final_css
-    html
-        This is the one which you absolutely must call.
-
-    infix_html
-    prefix_html
-    style_css
-    suffix_html
-    tabpane_js
-    webfxlayout_js
-
-    In each case, the current value of the parameter held within the
-    "CGI::TabPane" object is returned.
-
-    See the demo examples/test-cgi-tabpane.cgi for an example.
-
-Example code
-    See the examples/ directory in the distro.
-
-Required Modules
-    Carp.
-
-Changes
-    See Changes.txt.
-
-Related Modules
-    CGI::Explorer, also one of my modules, is a pure Perl wrapper around
-    another superb package from the House of EAE, this time 'XTree' by Emil
-    A Eklund.
-
-    Emil and Erik share the web site http://webfx.eae.net/ - please drop in
-    there and express your thanx.
-
-Author
-    "CGI::TabPane" was written by Ron Savage *<ron@savage.net.au>* in 2004.
-
-    Home page: http://savage.net.au/index.html
-
-Copyright
-    Australian copyright (c) 2004, Ron Savage. All rights reserved.
-
-            All Programs of mine are 'OSI Certified Open Source Software';
-            you can redistribute them and/or modify them under the terms of
-            The Artistic License, a copy of which is available at:
-            http://www.opensource.org/licenses/index.html
-
+2 Installing from an ActiveState distro
+---------------------------------------
+shell>unzip CGI-TabPane-1.04.zip
+shell>ppm install --location=. CGI-TabPane
+shell>del CGI-TabPane-1.04.ppd
+shell>del PPM-CGI-TabPane-1.04.tar.gz

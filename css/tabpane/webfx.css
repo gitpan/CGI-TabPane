@@ -1,3 +1,11 @@
+/*
+
+bright: rgb(234,242,255);
+normal: rgb(120,172,255);
+dark:	rgb(0,66,174);
+
+*/
+
 .dynamic-tab-pane-control.tab-pane {
 	position:	relative;
 	width:		100%;
