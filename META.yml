@@ -1,17 +1,24 @@
---- #YAML:1.0
-name: CGI-TabPane
-version: 1.05
+---
+abstract: 'Support panes with clickable tabs'
 author:
-  - Ron Savage <ron@savage.net.au>
-abstract: Support panes with clickable tabs
-license: artistic
-requires:
-  Carp: 0
+  - 'Ron Savage <ron@savage.net.au>'
 build_requires:
   Test::More: 0
   Test::Pod: 0
+configure_requires:
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3607'
+license: artistic
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: CGI-TabPane
 provides:
   CGI::TabPane:
     file: lib/CGI/TabPane.pm
-    version: 1.05
-generated_by: Module::Build version 0.2607
+    version: 1.08
+requires:
+  Carp: 0
+resources:
+  license: http://www.perlfoundation.org/artistic_license_1_0
+version: 1.08

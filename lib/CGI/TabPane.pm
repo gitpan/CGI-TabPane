@@ -56,7 +56,7 @@ our @EXPORT_OK = ( @{ $EXPORT_TAGS{'all'} } );
 our @EXPORT = qw(
 
 );
-our $VERSION = '1.05';
+our $VERSION = '1.08';
 
 # -----------------------------------------------
 
@@ -633,14 +633,6 @@ See the demo examples/test-cgi-tabpane.cgi for an example.
 
 See the examples/ directory in the distro.
 
-=head1 Required Modules
-
-Carp.
-
-=head1 Changes
-
-See Changes.txt.
-
 =head1 Related Modules
 
 CGI::Explorer, also one of my modules, is a pure Perl wrapper around another superb package from the House of EAE,
@@ -656,8 +648,7 @@ Home page: http://savage.net.au/index.html
 
 =head1 Copyright
 
-Australian copyright (c) 2004, Ron Savage. All rights reserved.
-
+Australian copyright (c) 2004, Ron Savage.
 	All Programs of mine are 'OSI Certified Open Source Software';
 	you can redistribute them and/or modify them under the terms of
 	The Artistic License, a copy of which is available at:
